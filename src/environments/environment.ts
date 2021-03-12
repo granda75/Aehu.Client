@@ -4,7 +4,7 @@
 
 export const environment = {
   production: false,
-  apiEndpoint: 'http://localhost/Aehu.WebApi/api/UsersData/GetAllPosts'
+  apiEndpoint: 'http://localhost/Aehu.WebApi/api/UsersData/'
 };
 
 

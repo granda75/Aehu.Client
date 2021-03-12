@@ -1,6 +1,8 @@
-import { Component, OnInit } from '@angular/core';
-import { PostService } from '../post-service';
+import { Component, OnInit, ViewChild } from '@angular/core';
+import { Table } from 'primeng/table';
+import { PostsService } from '../posts-service';
 import { Post } from '../post.model';
+
 
 @Component({
   selector: 'app-posts-table',
@@ -13,13 +15,15 @@ export class PostsTableComponent implements OnInit
   public loading: boolean;
   public post: Post;
   public posts: Post[] = [];
+  public comments: Comment[] = [];
+  public isDelete: boolean; 
   first: number;
   rows: number;
   totalRecords: number;
 
-   //clonedPosts: { [s: string]: Post; } = {};
+  public selectedPost : Post;
 
-  constructor(private postsService: PostService) { 
+  constructor(private postsService: PostsService) { 
 
   }
 
@@ -32,31 +36,41 @@ export class PostsTableComponent implements OnInit
   }
 
   
-  onEditInit(event)
+  clear(table: Table) 
   {
-    this.post = event.data;
-    //this.clonedOrders[this.order.orderID] = {...this.order};
-  }
-  
-  onEditComplete(event)
-  {
-    
-  }
-
-  onEditCancel(event)
-  {
-    //alert("onEditCancel");
+    table.clear();
   }
 
   loadPosts()
   {
     this.postsService.getPosts().subscribe(data=>{
+      debugger;
       this.posts = data;
       this.loading = false;
       
     });
-   
   }
+ 
+  deletePost(post: Post) 
+  {
+    debugger;
+      if ( confirm(" Are you sure to delete "+ post.id + " ?") ) 
+      {
+        this.posts = this.posts.filter(val => val.id !== post.id);
+        this.postsService.deletePost(post).subscribe(data=>{
+            this.isDelete = data;
+        });
+      }
+    
+}
+
+  getCommentsByPostId(postId: string)
+  {
+      this.postsService.getCommentsByPostId(postId).subscribe(data=>{
+      this.comments = data;
+
+  });
+  }     
 
 }
 

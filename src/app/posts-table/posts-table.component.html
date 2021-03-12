@@ -1,49 +1,96 @@
-<p>posts-table works!</p>
+<br>
+<div>Search by (Author / title ) </div>
+
 <div>
-    <div id="one">
-  
-  <p-table [value]="posts" dataKey="id" editMode="row" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
-            (onEditInit)="onEditInit($event)" (onEditComplete)="onEditComplete($event)"   (onEditCancel)="onEditCancel($event)"
-            currentPageReportTemplate="shows from  {first}  to {last} of {totalRecords} rows" [rowsPerPageOptions]="[10,25,50]">
+  <!-- (onRowSelect)="onRowSelect($event)" -->
+  <p-table #dt [value]="posts" dataKey="id" editMode="row" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
+            selectionMode="multiple" [(selection)]="selectedPost"  
+            currentPageReportTemplate="shows from  {first}  to {last} of {totalRecords} rows" 
+            [globalFilterFields]="['title','author']"
+            [rowsPerPageOptions]="[10,25,50]">
+
+          <ng-template pTemplate="caption">
+              <div class="p-d-flex">
+                  <span class="p-input-icon-left p-ml-auto">
+                      <i class="pi pi-search"></i>
+                      <!-- <input type="text" pInputText size="50" placeholder="Global Filter" (input)="dt.filterGlobal((event.target as HTMLInputElement).value, 'contains')" style="width:auto"> -->
+                      <input pInputText type="text" (input)="dt.filterGlobal($event.target.value, 'contains')" placeholder="Global Search" />
+                  </span>
+              </div>
+          </ng-template>
                
       <ng-template pTemplate="header">
-        <tr>
-          <th>Post Title</th>
-          <th>Author</th>
+        <tr [pSelectableRow]="post">
+            <th style="width: 3rem"></th>
+            <th style="width: 5rem">Id</th>
+            <th pSortableColumn="title">Post Title <p-sortIcon field="title"></p-sortIcon>
+            <p-columnFilter type="text" field="title" display="menu"></p-columnFilter>
+          </th>
+          <th pSortableColumn="author">Author <p-sortIcon field="author"></p-sortIcon>
+              <p-columnFilter type="text" field="author" display="menu"></p-columnFilter>
+          </th>
           <th># of Comments</th>
           <th>Image</th>
+          <th></th>
       </tr>
     </ng-template>
-   
-    <ng-template pTemplate="body" let-post let-editing="editing" let-ri="rowIndex">
-        <!-- <tr [pEditableRow]="post"> -->
-            <tr>
-              
-              <td [pEditableColumn]="post" pEditableColumnField="title">
-                <p-cellEditor>
-                    <ng-template pTemplate="input">
-                        <input pInputText type="text" [(ngModel)]="post.title">
-                    </ng-template>
-                    <ng-template pTemplate="output">
-                        {{post.title}}
-                    </ng-template>
-                </p-cellEditor>
-            </td>
-            
+    
+    <ng-template pTemplate="body" let-post let-editing="editing" let-expanded="expanded" let-ri="rowIndex" let-columns="columns">
+      
+              <tr [pSelectableRow]="post" [pSelectableRowIndex]="rowIndex">
+              <td>
+                  <a href="#" [pRowToggler]="post">
+                      <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"></i>
+                  </a>
+              </td>
+              <td>{{post.id}}</td>
+              <td>{{post.title}}</td>
               <td>{{post.author}}</td>
               <td>{{post.commentsCount}}</td>
-              <td>{{post.picture}}</td>
-                    
+              <td> <img src={{post.picture}} width="60" height="100" style="vertical-align: middle" /> </td>
+              <td>
+                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deletePost(post)"></button> -->
+                <button pButton pRipple label="Delete" icon="pi pi-trash" (click)="deletePost(post)"></button>
+                <!-- <button type="button">
+                  <fa-icon icon="bars"></fa-icon>
+                </button> -->
+              </td>
           </tr>
       </ng-template>
-  </p-table>
+    <!-- <p-table [value]="post.comments" dataKey="id"> -->
+      <ng-template pTemplate="rowexpansion" let-post>
+        <tr>
+          <td colspan="7">
+              <div class="p-p-3">
+                  <p-table [value]="post.comments" dataKey="id">
+                    <ng-template pTemplate="header">
+                      <tr>
+                          <th>Id </th>
+                          <th>Post Id </th>
+                          <th>Name </th>
+                          <th>Email </th>
+                          <th>Body </th>
+                          <th style="width: 4rem"></th>
+                      </tr>
+                  </ng-template>
+                    <ng-template pTemplate="body" let-comment>
+                      <tr>
+                        <td>{{comment.id}}</td>
+                        <td>{{comment.postId}}</td>
+                        <td>{{comment.name}}</td>
+                        <td>{{comment.email}}</td>
+                        <td>{{comment.body}}</td>
+                        
+                      </tr>
+                    </ng-template>
+                  </p-table>
+                </div>
+           </td>
+        </tr>
+    </ng-template>
+  
+
+</p-table>
+
   </div>
-
-
-
-<!-- <div id="two" dir="rtl">
-    <app-orders-total [totalOrders]="totalOrders" [totalShippingCost]="totalShippingCost" [averageShippingCost]="averageShippingCost">
-    </app-orders-total>
-</div> -->
-
 

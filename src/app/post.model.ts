@@ -5,5 +5,6 @@ export class Post
     author         : string;
     picture        : string;
     commentsCount  : number;
+    comments       : Comment[];
 }
 
