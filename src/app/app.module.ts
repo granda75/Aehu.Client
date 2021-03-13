@@ -1,4 +1,6 @@
 import { NgModule } from '@angular/core';
+import {ToolbarModule} from 'primeng/toolbar';
+import { DialogModule} from 'primeng/dialog';
 import { BrowserModule } from '@angular/platform-browser';
 import { BrowserAnimationsModule } from '@angular/platform-browser/animations';
 import { TableModule} from 'primeng/table';
@@ -7,6 +9,7 @@ import { AppComponent } from './app.component';
 import { FormsModule } from '@angular/forms';
 import { PostsTableComponent } from './posts-table/posts-table.component';
 import { HttpClientModule } from '@angular/common/http';
+
 
 
 @NgModule({
@@ -18,7 +21,9 @@ import { HttpClientModule } from '@angular/common/http';
     BrowserModule,
     AppRoutingModule,
     HttpClientModule,
+    DialogModule,
     TableModule,
+    ToolbarModule,
     FormsModule,
     BrowserAnimationsModule
   ],

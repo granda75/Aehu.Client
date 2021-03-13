@@ -1,8 +1,8 @@
-export class Comment 
+export class PostComment 
 {
-     postId     : number;
-     id         : number;
-     name       : string;
-     email      : string;
-     body       : string;
+     public postId     : number;
+     public id         : number;
+     public name       : string;
+     public email      : string;
+     public body       : string;
 }

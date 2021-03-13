@@ -6,5 +6,6 @@ export class Post
     picture        : string;
     commentsCount  : number;
     comments       : Comment[];
+    isSelected     : number;
 }
 

@@ -3,6 +3,7 @@ import { Observable } from 'rxjs';
 import { HttpClient, HttpHeaders, HttpErrorResponse } from '@angular/common/http';
 import { Post } from './post.model';
 import { environment } from 'src/environments/environment';
+import { PostComment } from './comment.model';
 
 @Injectable({
   providedIn: 'root'
@@ -10,29 +11,34 @@ import { environment } from 'src/environments/environment';
 export class PostsService 
 {
 
-  httpOptions = 
-  {
-      headers: new HttpHeaders({ 'Content-Type': 'application/json' })
-  };
-
 constructor(private http: HttpClient) 
 { 
 
 }
 
-  getPosts():Observable<Post[]>
-  {
+refreshData()
+{
+  let url = environment.apiEndpoint;
+  return this.http.get<boolean>(url+ "RefreshData");
+}
+
+addComment(comment: PostComment)
+{
+  let url = environment.apiEndpoint;
+  return this.http.post<boolean>(url+ "AddComment", comment);
+}
+
+deleteComment(comment: PostComment)
+{
+  let url = environment.apiEndpoint;
+  return this.http.delete<boolean>(url+ "DeleteComment?commentId="+ comment.id);
+}
+
+getPosts():Observable<Post[]>
+{
       let url = environment.apiEndpoint;
       return this.http.get<Post[]>(url+ "GetAllPosts");
-  }
-
-
-  getCommentsByPostId(postId: string):Observable<Comment[]>
-  {
-      debugger;
-      let url = environment.apiEndpoint;
-      return this.http.get<Comment[]>(url + "GetComments?postId="+ postId);
-  }
+}
 
   deletePost(post: Post):Observable<boolean>
   {

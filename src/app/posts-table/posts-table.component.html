@@ -1,10 +1,14 @@
 <br>
+<div>
+    <button (click)="refreshData()">Reset</button>
+</div>
+
 <div>Search by (Author / title ) </div>
 
 <div>
   <!-- (onRowSelect)="onRowSelect($event)" -->
   <p-table #dt [value]="posts" dataKey="id" editMode="row" [paginator]="true" [rows]="rows" [showCurrentPageReport]="true" [(first)]="first"
-            selectionMode="multiple" [(selection)]="selectedPost"  
+            selectionMode="multiple" [(selection)]="selectedPost"  (onRowSelect)="onRowSelect($event)" [loading]="loading" 
             currentPageReportTemplate="shows from  {first}  to {last} of {totalRecords} rows" 
             [globalFilterFields]="['title','author']"
             [rowsPerPageOptions]="[10,25,50]">
@@ -21,6 +25,7 @@
                
       <ng-template pTemplate="header">
         <tr [pSelectableRow]="post">
+          <th style="width: 3rem"></th>
             <th style="width: 3rem"></th>
             <th style="width: 5rem">Id</th>
             <th pSortableColumn="title">Post Title <p-sortIcon field="title"></p-sortIcon>
@@ -38,6 +43,9 @@
     <ng-template pTemplate="body" let-post let-editing="editing" let-expanded="expanded" let-ri="rowIndex" let-columns="columns">
       
               <tr [pSelectableRow]="post" [pSelectableRowIndex]="rowIndex">
+              <!-- <td> *ngif="post.isselected" <i class="pi pi-star"></i>; else <i class="pi pi-check"></i> </td> -->
+              <td><i [ngClass]="post.isSelected ? 'pi pi-star' : 'pi
+                 pi-star-o'"></i> <td>
               <td>
                   <a href="#" [pRowToggler]="post">
                       <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"></i>
@@ -49,16 +57,19 @@
               <td>{{post.commentsCount}}</td>
               <td> <img src={{post.picture}} width="60" height="100" style="vertical-align: middle" /> </td>
               <td>
-                <!-- <button pButton pRipple icon="pi pi-trash" class="p-button-danger" (click)="deletePost(post)"></button> -->
-                <button pButton pRipple label="Delete" icon="pi pi-trash" (click)="deletePost(post)"></button>
-                <!-- <button type="button">
-                  <fa-icon icon="bars"></fa-icon>
-                </button> -->
+                <button pButton pRipple label="Delete" icon="pi pi-trash" (click)="deletePost(post)"><i class="pi pi-trash"></i></button>
               </td>
           </tr>
       </ng-template>
     <!-- <p-table [value]="post.comments" dataKey="id"> -->
+     
       <ng-template pTemplate="rowexpansion" let-post>
+          <p-toolbar styleClass="p-mb-4">
+            <ng-template pTemplate="left">
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew(post.id)">New</button>
+                
+            </ng-template>
+        </p-toolbar>
         <tr>
           <td colspan="7">
               <div class="p-p-3">
@@ -80,7 +91,9 @@
                         <td>{{comment.name}}</td>
                         <td>{{comment.email}}</td>
                         <td>{{comment.body}}</td>
-                        
+                        <td>
+                          <button pButton pRipple label="Delete" icon="pi pi-trash" (click)="deleteComment(comment)"><i class="pi pi-trash"></i></button>
+                        </td>
                       </tr>
                     </ng-template>
                   </p-table>
@@ -88,9 +101,41 @@
            </td>
         </tr>
     </ng-template>
-  
-
 </p-table>
+
+<p-dialog [(visible)]="commentDialog" [style]="{width: '450px'}" header="Comments Details" [modal]="true" styleClass="p-fluid">
+  <ng-template pTemplate="content">
+    
+      <div class="p-field">
+          <label for="postId">Post Id   </label>
+          <label>{{comment.postId}} </label>
+          <!-- <input type="text" pInputText id="postId" [(ngModel)]="selectedPost.id" required autofocus /> -->
+          <small class="p-error" *ngIf="submitted && !comment.postId">postId is required.</small>
+      </div>
+      <!-- <div class="p-field">
+          <label for="id">Id</label> -->
+          <!-- <input type="text" pInputText id="id" [(ngModel)]="comment.id" required autofocus /> -->
+      <!-- </div> -->
+      <div class="p-field">
+          <label for="name">Name</label>
+          <input type="text" pInputText id="name" [(ngModel)]="comment.name" required autofocus />
+      </div>
+      <div class="p-field">
+        <label for="email">Email</label>
+        <input type="text" pInputText id="email" [(ngModel)]="comment.email" required autofocus />
+    </div>
+    <div class="p-field">
+        <label for="body">Body</label>
+        <textarea id="body" pInputTextarea [(ngModel)]="comment.body" required rows="3" cols="20"></textarea>
+    </div>
+      
+  </ng-template>
+  
+  <ng-template pTemplate="footer">
+      <button pButton pRipple label="Cancel" icon="pi pi-times" class="p-button-text" (click)="hideDialog()">Cancel</button>
+      <button pButton pRipple label="Save" icon="pi pi-check" class="p-button-text" (click)="addComment(comment)">Save</button>
+  </ng-template>
+</p-dialog>
 
   </div>
 
