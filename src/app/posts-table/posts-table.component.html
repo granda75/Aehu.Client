@@ -66,7 +66,7 @@
       <ng-template pTemplate="rowexpansion" let-post>
           <p-toolbar styleClass="p-mb-4">
             <ng-template pTemplate="left">
-                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew(post.id)">New</button>
+                <button pButton pRipple label="New" icon="pi pi-plus" class="p-button-success p-mr-2" (click)="openNew(post.id)"><i class="pi pi-plus"></i></button>
                 
             </ng-template>
         </p-toolbar>
@@ -105,30 +105,37 @@
 
 <p-dialog [(visible)]="commentDialog" [style]="{width: '450px'}" header="Comments Details" [modal]="true" styleClass="p-fluid">
   <ng-template pTemplate="content">
-    
-      <div class="p-field">
-          <label for="postId">Post Id   </label>
-          <label>{{comment.postId}} </label>
-          <!-- <input type="text" pInputText id="postId" [(ngModel)]="selectedPost.id" required autofocus /> -->
-          <small class="p-error" *ngIf="submitted && !comment.postId">postId is required.</small>
-      </div>
-      <!-- <div class="p-field">
-          <label for="id">Id</label> -->
-          <!-- <input type="text" pInputText id="id" [(ngModel)]="comment.id" required autofocus /> -->
-      <!-- </div> -->
-      <div class="p-field">
-          <label for="name">Name</label>
-          <input type="text" pInputText id="name" [(ngModel)]="comment.name" required autofocus />
-      </div>
-      <div class="p-field">
-        <label for="email">Email</label>
-        <input type="text" pInputText id="email" [(ngModel)]="comment.email" required autofocus />
-    </div>
-    <div class="p-field">
-        <label for="body">Body</label>
-        <textarea id="body" pInputTextarea [(ngModel)]="comment.body" required rows="3" cols="20"></textarea>
-    </div>
+      <table>
+        <tr>
+          <td>
+            <label for="postId">Post Id   </label>&nbsp;&nbsp;&nbsp;
+            <label>{{comment.postId}} </label>
+            <!-- <input type="text" pInputText id="postId" [(ngModel)]="selectedPost.id" required autofocus /> -->
+            <small class="p-error" *ngIf="submitted && !comment.postId">postId is required.</small>
+          </td>
+        </tr>
       
+        <tr>
+          <td>
+            <label for="name">Name</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" pInputText id="name" [(ngModel)]="comment.name" required autofocus />
+          </td>
+        </tr>
+        <tr>
+          <td>
+            <label for="email">Email</label> &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+            <input type="text" pInputText id="email" [(ngModel)]="comment.email" required autofocus />
+          </td>
+        </tr>    
+        <tr>
+          <td>
+        <label for="body">Body</label>&nbsp; &nbsp;&nbsp;&nbsp;&nbsp;&nbsp;&nbsp;
+        <textarea id="body" pInputTextarea [(ngModel)]="comment.body" required rows="3" cols="20"></textarea>
+      </td>
+    </tr>    
+
+  </table>
+
   </ng-template>
   
   <ng-template pTemplate="footer">
@@ -137,5 +144,6 @@
   </ng-template>
 </p-dialog>
 
-  </div>
+  </div> 
 
+ 
