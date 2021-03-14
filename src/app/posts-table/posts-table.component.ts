@@ -3,7 +3,7 @@ import { Table } from 'primeng/table';
 import { PostsService } from '../posts-service';
 import { Post } from '../post.model';
 import { PostComment } from '../comment.model';
-// import { Comment } from "../comment.model";
+
 
 @Component({
   selector: 'app-posts-table',

@@ -25,12 +25,12 @@
                
       <ng-template pTemplate="header">
         <tr [pSelectableRow]="post">
-          <th style="width: 3rem"></th>
+            <th style="width: 3rem"></th>
             <th style="width: 3rem"></th>
             <th style="width: 5rem">Id</th>
             <th pSortableColumn="title">Post Title <p-sortIcon field="title"></p-sortIcon>
-            <p-columnFilter type="text" field="title" display="menu"></p-columnFilter>
-          </th>
+              <p-columnFilter type="text" field="title" display="menu"></p-columnFilter>
+            </th>
           <th pSortableColumn="author">Author <p-sortIcon field="author"></p-sortIcon>
               <p-columnFilter type="text" field="author" display="menu"></p-columnFilter>
           </th>
@@ -44,8 +44,7 @@
       
               <tr [pSelectableRow]="post" [pSelectableRowIndex]="rowIndex">
               <!-- <td> *ngif="post.isselected" <i class="pi pi-star"></i>; else <i class="pi pi-check"></i> </td> -->
-              <td><i [ngClass]="post.isSelected ? 'pi pi-star' : 'pi
-                 pi-star-o'"></i> <td>
+              <td><i [ngClass]="post.isSelected ? 'pi pi-star' : 'pi pi-star-o'"></i> </td>
               <td>
                   <a href="#" [pRowToggler]="post">
                       <i [ngClass]="expanded ? 'pi pi-fw pi-chevron-circle-down' : 'pi pi-fw pi-chevron-circle-right'"></i>

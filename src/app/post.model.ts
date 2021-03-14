@@ -1,3 +1,5 @@
+import { PostComment } from "./comment.model";
+
 export class Post 
 {
     id             : number;       
@@ -5,7 +7,7 @@ export class Post
     author         : string;
     picture        : string;
     commentsCount  : number;
-    comments       : Comment[];
+    comments       : PostComment[];
     isSelected     : number;
 }
 
